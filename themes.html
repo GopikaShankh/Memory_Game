@@ -1,0 +1,337 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game with Levels & Themes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; text-align: center; transition: background 0.5s; }
+        
+        .header { padding: 20px; font-size: 24px; font-weight: bold; }
+        .controls { margin-bottom: 20px; }
+        select, button { padding: 10px; margin: 5px; font-size: 16px; cursor: pointer; }
+        
+        .container { width: 80%; margin: auto; }
+        
+        .slider-container { position: relative; width: 80%; margin: 20px auto; overflow: hidden; }
+        .slide { display: flex; transition: transform 0.5s ease-in-out; gap: 10px; }
+        .bg-item { min-width: 300px; height: 200px; background-size: cover; background-position: center; border-radius: 10px; cursor: pointer; }
+        
+        .buttons { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); }
+        .buttons button { background: rgba(255, 255, 255, 0.5); border: none; padding: 10px; font-size: 20px; cursor: pointer; }
+        
+        .game-container {
+            display: none;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            background-size: cover;
+            background-position: center;
+        }
+        .game-board { 
+            display: grid; 
+            gap: 10px; 
+            justify-content: center; 
+            padding: 20px; 
+        }
+        .card { 
+            width: 100px; 
+            height: 140px; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2); 
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="header">Card Game with Levels & Themes</div>
+    
+    <div class="controls">
+        <label for="level">Choose Level:</label>
+        <select id="level">
+            <option value="8">Easy (8 cards)</option>
+            <option value="16">Medium (16 cards)</option>
+            <option value="24">Hard (24 cards)</option>
+        </select>
+        <button onclick="startGame()">Start Game</button>
+    </div>
+
+
+    <div class="slider-container">
+        <div class="slide" id="bgSlider">
+            <div class="bg-item" style="background-image: url('https://i.pinimg.com/originals/c7/f4/b7/c7f4b7922cad40cd75fb214a63bec12d.gif')" onclick="changeBackground(this)"></div>
+            <div class="bg-item" style="background-image: url('https://i.pinimg.com/originals/96/3f/49/963f4946cb59a181fc60fdca84ce9027.gif')" onclick="changeBackground(this)"></div>
+            <div class="bg-item" style="background-image: url('https://i.pinimg.com/originals/97/42/79/97427919f0e576b69dfebf079f9aef23.gif')" onclick="changeBackground(this)"></div>
+            <div class="bg-item" style="background-image: url('https://i.pinimg.com/originals/0d/af/0e/0daf0e70017ba838ea59ba27dfa22d3b.gif')" onclick="changeBackground(this)"></div>
+        </div>
+        <div class="buttons">
+            <button onclick="prevSlide()">⬅</button>
+            <button onclick="nextSlide()">➡</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="game-container" id="gameContainer">
+            <div class="game-board" id="gameBoard"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        let selectedBackground = '';  
+
+        function nextSlide() {
+            let slider = document.getElementById("bgSlider");
+            if (currentIndex < 3) {
+                currentIndex++;
+                slider.style.transform = `translateX(-${currentIndex * 310}px)`;
+            }
+        }
+
+        function prevSlide() {
+            let slider = document.getElementById("bgSlider");
+            if (currentIndex > 0) {
+                currentIndex--;
+                slider.style.transform = `translateX(-${currentIndex * 310}px)`;
+            }
+        }
+
+        function changeBackground(element) {
+            selectedBackground = element.style.backgroundImage;
+            document.body.style.backgroundImage = selectedBackground;
+            document.getElementById("gameContainer").style.backgroundImage = selectedBackground;
+            document.getElementById("gameContainer").style.display = "block"; // Game board show hoga
+        }
+
+        function startGame() {
+            if (!selectedBackground) {
+                alert("Please select a background theme first!");
+                return;
+            }
+
+            let level = document.getElementById("level").value;
+            let gameBoard = document.getElementById("gameBoard");
+            gameBoard.innerHTML = '';
+            
+            gameBoard.style.gridTemplateColumns = `repeat(${Math.sqrt(level)}, 1fr)`;
+
+            for (let i = 0; i < level; i++) {
+                let card = document.createElement("div");
+                card.classList.add("card");
+                gameBoard.appendChild(card);
+            }
+        }
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            transition: background 0.5s;
+        }
+
+        .header {
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        select,
+        button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 80%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 10px;
+        }
+
+        .bg-item {
+            min-width: 300px;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .buttons button {
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            padding: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .game-page {
+            display: none;
+        }
+
+        .game-container {
+            padding: 20px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            justify-content: center;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .card {
+            width: 100px;
+            height: 140px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="home-page">
+        <h1>Choose Background & Level</h1>
+        <div class="slider-container">
+            <div class="slide" id="bgSlider">
+                <div class="bg-item"
+                    style="background-image: url('https://i.pinimg.com/originals/c7/f4/b7/c7f4b7922cad40cd75fb214a63bec12d.gif')"
+                    onclick="changeBackground(this)"></div>
+                <div class="bg-item"
+                    style="background-image: url('https://i.pinimg.com/originals/96/3f/49/963f4946cb59a181fc60fdca84ce9027.gif')"
+                    onclick="changeBackground(this)"></div>
+                <div class="bg-item"
+                    style="background-image: url('https://i.pinimg.com/originals/97/42/79/97427919f0e576b69dfebf079f9aef23.gif')"
+                    onclick="changeBackground(this)"></div>
+                <div class="bg-item"
+                    style="background-image: url('https://i.pinimg.com/originals/0d/af/0e/0daf0e70017ba838ea59ba27dfa22d3b.gif')"
+                    onclick="changeBackground(this)"></div>
+            </div>
+            <div class="buttons">
+                <button onclick="prevSlide()">⬅</button>
+                <button onclick="nextSlide()">➡</button>
+            </div>
+        </div>
+        <div class="controls">
+            <label for="level">Choose Level:</label>
+            <select id="level">
+                <option value="16">Easy</option>
+                <option value="24">Medium</option>
+                <option value="32">Hard</option>
+            </select>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+    </div>
+
+    <div class="game-page">
+        <button class="back-btn" onclick="goBack()">⬅ Back</button>
+        <div class="game-container" id="gameContainer">
+            <div class="game-board" id="gameBoard"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedBackground = '';
+
+        function changeBackground(element) {
+            selectedBackground = element.style.backgroundImage;
+        }
+
+        function startGame() {
+            if (!selectedBackground) {
+                alert("Please select a background first!");
+                return;
+            }
+            document.querySelector(".home-page").style.display = "none";
+            document.querySelector(".game-page").style.display = "block";
+            document.getElementById("gameContainer").style.backgroundImage = selectedBackground;
+
+            let level = document.getElementById("level").value;
+            let gameBoard = document.getElementById("gameBoard");
+            gameBoard.innerHTML = '';
+
+            // Rows and Columns set karne ke liye
+            let columns;
+            if (level == 16) columns = 4;
+            else if (level == 24) columns = 6;
+            else columns = 8; // level == 32
+
+            gameBoard.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+
+            for (let i = 0; i < level; i++) {
+                let card = document.createElement("div");
+                card.classList.add("card");
+                gameBoard.appendChild(card);
+            }
+        }
+
+
+        function goBack() {
+            document.querySelector(".game-page").style.display = "none";
+            document.querySelector(".home-page").style.display = "block";
+        }
+    </script>
+</body>
+
+</html>
